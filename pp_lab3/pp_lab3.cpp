@@ -84,19 +84,15 @@ int main(int argc, char** argv) {
 
 
 
-        for (int i = 1; i < size; i++)//передача сообщений между отдельными процессами
+        for (int i = 1; i < size; i++)
         {
-            MPI_Send(&N, 1, MPI_INT, i, TAG_N, MPI_COMM_WORLD);// 1-атрибут - адрес откуда брать переманную
-            //2 - атрибут сколько этих переменных будет
-            //3-атрибут тип данных этой переменной
-            //4-атрибут № процесса перменной (№ ранга)
-            // 5-атрбут тег перменной, для идентификации сообщений;
-            //6-й -атрибут информация о всех процессах ( коммуникатор, в рамках которого выполняется посылка сообщения.)                                
+            int val = N % size;
+            MPI_Send(&val, 1, MPI_INT, i, TAG_N, MPI_COMM_WORLD);
         }
 
-        for (int i = 1; i < size; i++)// смотреть выше
+        for (int i = 1; i < size; i++)
         {
-            MPI_Send(a, N, MPI_INT, i, TAG_A, MPI_COMM_WORLD);
+            MPI_Send(a, N % size, MPI_INT, i, TAG_A, MPI_COMM_WORLD);
         }
 
 
